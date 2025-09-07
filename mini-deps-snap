@@ -1,0 +1,4 @@
+return {
+  ["friendly-snippets"] = "572f5660cf05f8cd8834e096d7b4c921ba18e175",
+  ["mini.nvim"] = "6105b69d79fef0afed5ed576081b1997ef2b4be1"
+}
