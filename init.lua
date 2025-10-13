@@ -15,17 +15,21 @@ require('mini.deps').setup {
 }
 
 MiniDeps.now(function()
-  vim.filetype.add({ extension = { templ = 'templ' } })
+  vim.filetype.add { extension = { templ = 'templ' } }
 
-  vim.lsp.enable({ 'gopls', 'luals', 'templ', 'ts_ls' })
+  vim.lsp.enable { 'gopls', 'luals', 'templ', 'ts_ls', 'basedpyright' }
 end)
 
-MiniDeps.now(function() vim.cmd 'colorscheme wite' end)
+MiniDeps.now(function()
+  vim.cmd('colorscheme wite')
+end)
 
 N0.toggle_quickfix = function()
   local cur_tabnr = vim.fn.tabpagenr()
   for _, wininfo in ipairs(vim.fn.getwininfo()) do
-    if wininfo.quickfix == 1 and wininfo.tabnr == cur_tabnr then return vim.cmd('cclose') end
+    if wininfo.quickfix == 1 and wininfo.tabnr == cur_tabnr then
+      return vim.cmd('cclose')
+    end
   end
   vim.cmd('copen')
 end
