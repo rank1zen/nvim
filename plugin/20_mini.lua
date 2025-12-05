@@ -75,8 +75,25 @@ MiniDeps.later(function()
   require('mini.diff').setup(H.mini_diff_config())
 end)
 
-MiniDeps.later(function()
-  require('mini.files').setup(H.mini_files_config())
+MiniDeps.now(function()
+  require('mini.files').setup {
+    content = {
+      prefix = function()
+        return ''
+      end,
+    },
+    mappings = {
+      close = '<C-[>',
+      go_in = '<CR>',
+      go_in_plus = '<S-CR>',
+      go_out = '-',
+      go_out_plus = 'H',
+    },
+    options = {
+      permanent_delete = false,
+      use_as_default_explorer = true,
+    },
+  }
 end)
 
 MiniDeps.later(function()
@@ -216,13 +233,13 @@ H.mini_files_config = function()
     mappings = {
       close = '<C-[>',
       go_in = '<CR>',
-      go_in_plus = '',
+      go_in_plus = '<S-CR>',
       go_out = '-',
-      go_out_plus = '',
+      go_out_plus = 'H',
     },
     options = {
       permanent_delete = false,
-      use_as_default_explorer = false,
+      use_as_default_explorer = true,
     },
   }
 end

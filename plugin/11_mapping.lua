@@ -34,8 +34,10 @@ MiniDeps.now(function()
   vim.keymap.set('n', 'ZB', '<Cmd>lua MiniBufremove.delete()<CR>')
   vim.keymap.set('n', 'ZW', '<Cmd>lua MiniBufremove.wipeout()<CR>')
 
-  vim.keymap.set('n', '<Leader>x', function()
-    MiniFiles.open(vim.api.nvim_buf_get_name(0))
+  vim.keymap.set('n', '<M-x>', function()
+    if not MiniFiles.close() then
+      MiniFiles.open(vim.api.nvim_buf_get_name(0), false)
+    end
   end)
 
   vim.keymap.set('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>')
