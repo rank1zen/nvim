@@ -1,131 +1,203 @@
 local H = {}
 
-MiniDeps.now(function()
-  require('mini.sessions').setup()
-end)
-
-MiniDeps.now(function()
-  require('mini.basics').setup()
-end)
-
-MiniDeps.now(function()
-  require('mini.starter').setup()
-end)
-
-MiniDeps.later(function()
-  require('mini.statusline').setup(H.mini_statusline_config())
-end)
-
-MiniDeps.later(function()
-  require('mini.extra').setup()
-end)
-
-MiniDeps.later(function()
-  require('mini.tabline').setup(H.mini_tabline_config())
-end)
-
-MiniDeps.later(function()
+H.setup_mini_ai = function()
   require('mini.ai').setup(H.mini_ai_config())
-end)
+end
 
-MiniDeps.later(function()
-  require('mini.align').setup()
-end)
+H.setup_mini_files = function()
+  require('mini.files').setup(H.mini_files_config())
+end
 
-MiniDeps.later(function()
-  require('mini.trailspace').setup()
-end)
+H.setup_mini_keymap = function()
+  require('mini.keymap').setup(H.mini_keymap_config())
 
-MiniDeps.later(function()
-  require('mini.completion').setup(H.mini_completion_config())
-end)
-MiniDeps.later(function()
-  H.apply_mini_completion_autocmds()
-end)
+  MiniKeymap.map_multistep('i', '<Tab>', { 'pmenu_next', 'minisnippets_next' })
+  MiniKeymap.map_multistep(
+    'i',
+    '<S-Tab>',
+    { 'pmenu_prev', 'minisnippets_prev', 'jump_before_tsnode', 'jump_before_open' }
+  )
+  MiniKeymap.map_multistep('i', '<CR>', { 'pmenu_accept', 'minipairs_cr' })
+  MiniKeymap.map_multistep('i', '<BS>', { 'minipairs_bs' })
+end
 
-MiniDeps.later(function()
-  require('mini.snippets').setup(H.mini_snippets_config())
-end)
+H.setup_mini_statusline = function()
+  require('mini.ai').setup(H.mini_ai_config())
+end
 
-MiniDeps.later(function()
-  require('mini.indentscope').setup()
-end)
+H.setup_mini_tabline = function()
+  require('mini.tabline').setup(H.mini_tabline_config())
+end
 
-MiniDeps.later(function()
-  require('mini.operators').setup()
-end)
-
-MiniDeps.later(function()
-  require('mini.pairs').setup()
-end)
-
-MiniDeps.later(function()
-  require('mini.splitjoin').setup()
-end)
-
-MiniDeps.later(function()
-  require('mini.surround').setup()
-end)
-
-MiniDeps.later(function()
-  require('mini.bracketed').setup()
-end)
-
-MiniDeps.later(function()
-  require('mini.diff').setup(H.mini_diff_config())
-end)
-
-MiniDeps.now(function()
-  require('mini.files').setup {
-    content = {
-      prefix = function()
-        return ''
-      end,
-    },
-    mappings = {
-      close = '<C-[>',
-      go_in = '<CR>',
-      go_in_plus = '<S-CR>',
-      go_out = '-',
-      go_out_plus = 'H',
-    },
-    options = {
-      permanent_delete = false,
-      use_as_default_explorer = true,
-    },
-  }
-end)
-
-MiniDeps.later(function()
-  require('mini.git').setup()
-end)
-
-MiniDeps.later(function()
-  require('mini.jump2d').setup()
-end)
-
-MiniDeps.later(function()
+H.setup_mini_pick = function()
   require('mini.pick').setup(H.mini_pick_config())
-end)
+end
 
-MiniDeps.later(function()
-  require('mini.move').setup()
-end)
+H.setup_mini_snippets = function()
+  require('mini.snippets').setup(H.mini_snippets_config())
+end
 
-MiniDeps.later(function()
-  require('mini.bufremove').setup()
-end)
+H.setup_mini_completion = function()
+  require('mini.completion').setup(H.mini_completion_config())
 
-MiniDeps.later(function()
+  local on_attach = function(args)
+    vim.bo[args.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
+  end
+  vim.api.nvim_create_autocmd('LspAttach', { callback = on_attach })
+  vim.lsp.config('*', { capabilities = MiniCompletion.get_lsp_capabilities() })
+end
+
+H.setup_mini_clue = function()
   require('mini.clue').setup(H.mini_clue_config())
-end)
+end
 
-MiniDeps.later(function()
-  require('mini.keymap').setup()
-end)
-MiniDeps.later(function()
-  H.apply_mini_keymaps()
-end)
+H.setup_mini_diff = function()
+  require('mini.diff').setup(H.mini_diff_config())
+end
+
+H.setup_mini_sessions = function()
+  require('mini.sessions').setup(H.mini_sessions_config())
+end
+
+H.setup_mini_basics = function()
+  require('mini.basics').setup(H.mini_basics_config())
+end
+
+H.setup_mini_starter = function()
+  require('mini.starter').setup(H.mini_starter_config())
+end
+
+H.setup_mini_extra = function()
+  require('mini.extra').setup(H.mini_extra_config())
+end
+
+H.setup_mini_align = function()
+  require('mini.align').setup(H.mini_align_config())
+end
+
+H.setup_mini_trailspace = function()
+  require('mini.trailspace').setup(H.mini_trailspace_config())
+end
+
+H.setup_mini_indentscope = function()
+  require('mini.indentscope').setup(H.mini_indentscope_config())
+end
+
+H.setup_mini_operators = function()
+  require('mini.operators').setup(H.mini_operators_config())
+end
+
+H.setup_mini_pairs = function()
+  require('mini.pairs').setup(H.mini_pairs_config())
+end
+
+H.setup_mini_splitjoin = function()
+  require('mini.splitjoin').setup(H.mini_splitjoin_config())
+end
+
+H.setup_mini_surround = function()
+  require('mini.surround').setup(H.mini_surround_config())
+end
+
+H.setup_mini_bracketed = function()
+  require('mini.bracketed').setup(H.mini_bracketed_config())
+end
+
+H.setup_mini_git = function()
+  require('mini.git').setup(H.mini_git_config())
+end
+
+H.setup_mini_jump2d = function()
+  require('mini.jump2d').setup(H.mini_jump2d_config())
+end
+
+H.setup_mini_move = function()
+  require('mini.move').setup(H.mini_move_config())
+end
+
+H.setup_mini_bufremove = function()
+  require('mini.bufremove').setup(H.mini_bufremove_config())
+end
+
+H.mini_splitjoin_config = function()
+  local config = {}
+  return config
+end
+
+H.mini_indentscope_config = function()
+  local config = {}
+  return config
+end
+
+H.mini_pairs_config = function()
+  local config = {}
+  return config
+end
+
+H.mini_extra_config = function()
+  local config = {}
+  return config
+end
+
+H.mini_git_config = function()
+  local config = {}
+  return config
+end
+
+H.mini_move_config = function()
+  local config = {}
+  return config
+end
+
+H.mini_sessions_config = function()
+  local config = {}
+  return config
+end
+
+H.mini_jump2d_config = function()
+  local config = {}
+  return config
+end
+
+H.mini_bufremove_config = function()
+  local config = {}
+  return config
+end
+
+H.mini_surround_config = function()
+  local config = {}
+  return config
+end
+
+H.mini_bracketed_config = function()
+  local config = {}
+  return config
+end
+
+H.mini_basics_config = function()
+  local config = {}
+  return config
+end
+
+H.mini_starter_config = function()
+  local config = {}
+  return config
+end
+
+H.mini_operators_config = function()
+  local config = {}
+  return config
+end
+
+H.mini_align_config = function()
+  local config = {}
+  return config
+end
+
+H.mini_trailspace_config = function()
+  local config = {}
+  return config
+end
 
 H.mini_ai_config = function()
   local mini_ai = require('mini.ai')
@@ -231,15 +303,18 @@ H.mini_files_config = function()
       end,
     },
     mappings = {
-      close = '<C-[>',
-      go_in = '<CR>',
-      go_in_plus = '<S-CR>',
+      close = 'q',
+      go_in = '<S-CR>',
+      go_in_plus = '<CR>',
       go_out = '-',
-      go_out_plus = 'H',
+      go_out_plus = '',
     },
     options = {
       permanent_delete = false,
       use_as_default_explorer = true,
+    },
+    windows = {
+      preview = true,
     },
   }
 end
@@ -339,23 +414,9 @@ H.mini_diff_config = function()
   return config
 end
 
-H.apply_mini_keymaps = function()
-  MiniKeymap.map_multistep('i', '<Tab>', { 'pmenu_next', 'minisnippets_next' })
-  MiniKeymap.map_multistep(
-    'i',
-    '<S-Tab>',
-    { 'pmenu_prev', 'minisnippets_prev', 'jump_before_tsnode', 'jump_before_open' }
-  )
-  MiniKeymap.map_multistep('i', '<CR>', { 'pmenu_accept', 'minipairs_cr' })
-  MiniKeymap.map_multistep('i', '<BS>', { 'minipairs_bs' })
-end
-
-H.apply_mini_completion_autocmds = function()
-  local on_attach = function(args)
-    vim.bo[args.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
-  end
-  vim.api.nvim_create_autocmd('LspAttach', { callback = on_attach })
-  vim.lsp.config('*', { capabilities = MiniCompletion.get_lsp_capabilities() })
+H.mini_keymap_config = function()
+  local config = {}
+  return config
 end
 
 H.pick_show_with_icons = function(buf_id, items, query)
@@ -375,3 +436,107 @@ H.window_center = function(opt)
   end
   return opt
 end
+
+MiniDeps.now(function()
+  H.setup_mini_sessions()
+end)
+
+MiniDeps.now(function()
+  H.setup_mini_basics()
+end)
+
+MiniDeps.now(function()
+  H.setup_mini_starter()
+end)
+
+MiniDeps.now(function()
+  H.setup_mini_files()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_ai()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_statusline()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_extra()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_tabline()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_align()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_trailspace()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_completion()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_snippets()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_indentscope()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_operators()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_pairs()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_splitjoin()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_surround()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_bracketed()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_diff()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_git()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_jump2d()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_pick()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_move()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_bufremove()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_clue()
+end)
+
+MiniDeps.later(function()
+  H.setup_mini_keymap()
+end)
