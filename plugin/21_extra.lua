@@ -1,19 +1,19 @@
 MiniDeps.now(function()
-  MiniDeps.add {
+  MiniDeps.add({
     source = 'nvim-treesitter/nvim-treesitter',
     checkout = 'main',
-  }
+  })
 
-  MiniDeps.add {
+  MiniDeps.add({
     source = 'nvim-treesitter/nvim-treesitter-textobjects',
     checkout = 'main',
-  }
+  })
 
-  require('nvim-treesitter.configs').setup {
+  require('nvim-treesitter.configs').setup({
     highlight = {
       enable = true,
     },
-  }
+  })
 end)
 
 MiniDeps.now(function()
@@ -23,7 +23,7 @@ end)
 MiniDeps.later(function()
   MiniDeps.add('stevearc/conform.nvim')
 
-  require('conform').setup {
+  require('conform').setup({
     formatters_by_ft = {
       javascript = { 'prettier' },
 
@@ -39,7 +39,7 @@ MiniDeps.later(function()
       lsp_format = 'fallback',
       timeout_ms = 500,
     },
-  }
+  })
 end)
 
 MiniDeps.later(function()
@@ -49,7 +49,7 @@ MiniDeps.later(function()
   overseer.setup()
   local file = vim.fn.expand('%:p')
 
-  overseer.register_template {
+  overseer.register_template({
     -- Required fields
     name = 'Watch a typst file',
     builder = function(params)
@@ -65,7 +65,7 @@ MiniDeps.later(function()
     condition = {
       filetype = { 'typst' },
     },
-  }
+  })
 end)
 
 MiniDeps.later(function()
@@ -80,7 +80,7 @@ MiniDeps.later(function()
 
   local SymbolKind = vim.lsp.protocol.SymbolKind
 
-  require('symbol-usage').setup {
+  require('symbol-usage').setup({
     hl = { link = 'PmenuMatch' },
 
     kinds = { SymbolKind.Function, SymbolKind.Method },
@@ -121,5 +121,5 @@ MiniDeps.later(function()
     -- end,
 
     log = { enabled = false },
-  }
+  })
 end)
