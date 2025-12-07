@@ -55,3 +55,18 @@ MiniDeps.now(function()
   H.nmap_leader('ls', '<Cmd>lua vim.lsp.buf.signature_help()<CR>')
   H.nmap_leader('lfr', '<Cmd>Pick lsp scope="references"<CR>')
 end)
+
+MiniDeps.now(function()
+  local git_log_cmd = [[Git log --pretty=format:\%h\ \%as\ │\ \%s --topo-order]]
+  H.nmap_leader('gl', '<Cmd>' .. git_log_cmd .. '<CR>', 'Diff')
+
+  H.nmap_leader('gL', '<Cmd>' .. git_log_cmd .. ' --follow -- %' .. '<CR>', 'Diff Buffer')
+
+  H.nmap_leader('gd', '<Cmd>Git diff<CR>', 'Diff')
+
+  H.nmap_leader('gD', '<Cmd>Git diff -- %<CR>', 'Diff buffer')
+
+  H.nmap_leader('ga', '<Cmd>Git diff --cached<CR>', 'Added diff')
+
+  H.nmap_leader('gA', '<Cmd>Git diff --cached -- %<CR>', 'Added diff buffer')
+end)
