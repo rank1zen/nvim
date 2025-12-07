@@ -5,6 +5,5 @@ return {
   ["mini.nvim"] = "94cae4660a8b2d95dbbd56e1fbc6fcfa2716d152",
   ["nvim-treesitter"] = "42fc28ba918343ebfd5565147a42a26580579482",
   ["nvim-treesitter-textobjects"] = "b54cec389e98c5b0babbe618773acec927437cab",
-  ["overseer.nvim"] = "36298eab791cca87ac3a228933413d094423400e",
-  ["symbol-usage.nvim"] = "e07c07dfe7504295a369281e95a24e1afa14b243"
+  ["overseer.nvim"] = "36298eab791cca87ac3a228933413d094423400e"
 }
