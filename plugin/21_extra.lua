@@ -1,18 +1,7 @@
 MiniDeps.now(function()
   MiniDeps.add({
-    source = 'nvim-treesitter/nvim-treesitter',
-    checkout = 'main',
-  })
-
-  MiniDeps.add({
     source = 'nvim-treesitter/nvim-treesitter-textobjects',
     checkout = 'main',
-  })
-
-  require('nvim-treesitter.configs').setup({
-    highlight = {
-      enable = true,
-    },
   })
 end)
 
